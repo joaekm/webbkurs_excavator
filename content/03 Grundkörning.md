@@ -74,7 +74,7 @@ Du har provat minigrävare. Den här maskinen väger runt 26 400 kg mot minins p
 
 **Skophastigheten i ytterläge.** Ju längre ut bom och sticka är sträckta, desto längre väg färdas skoptänderna för samma spakrörelse. Långt ute rör sig skopan fort även vid små spakrörelser. Arbeta mjukare och med mindre spakutslag när du gräver på räckvidd. Detta är allmän körteknik, inte en maskinspecifik siffra.
 
-**Döda vinklar.** En stor grävmaskin har oundvikliga döda vinklar **bakåt och åt höger**. Bommen skymmer höger sidosikt när den är sänkt, och motvikt och hytt skymmer allt rakt bakåt. Rutinen är: sväng aldrig och backa aldrig utan att först ha koll på zonen, och håll människor ur svängradien.
+**Döda vinklar.** En stor grävmaskin har oundvikliga döda vinklar **bakåt och åt höger**. Bommen skymmer höger sidosikt när den är sänkt, och motvikt och hytt skymmer allt rakt bakåt. Rutinen är: sväng aldrig och backa aldrig utan att först ha koll på zonen, och håll människor utanför svansradien.
 
 ### Så använder du backkameran
 
@@ -88,7 +88,7 @@ Bevisa för dig själv vad kameran inte visar, dag 1:
 
 Kameran täcker alltså rakt bakåt, inte höger sida. Använd den som komplement, aldrig som enda koll före sväng eller backning.
 
-> VARNING: Ingen får befinna sig i svängradien (ca 3,1 m runt maskinen) medan du arbetar. Eftersom du kör ensam: stanna maskinen, sänk skopan och släpp spakarna om någon närmar sig, innan du fortsätter. Backa och sväng bara mot zoner du sett vara fria.
+> VARNING: Ingen får befinna sig inom svansradien (ca 3,1 m runt maskinen) medan du arbetar. Eftersom du kör ensam: stanna maskinen, sänk skopan och släpp spakarna om någon närmar sig, innan du fortsätter. Backa och sväng bara mot zoner du sett vara fria.
 
 ## Övningsprogression dag för dag
 

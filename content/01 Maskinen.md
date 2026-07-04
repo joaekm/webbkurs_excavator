@@ -227,7 +227,7 @@ Maskinen har **centralsmörjning**. Ett pumpsystem trycker automatiskt ut fett t
 - Du måste kontrollera **fettbehållarens nivå** och fylla på fett innan den tar slut. Ett tomt centralsmörjningssystem smörjer ingenting.
 - Punkter som **inte** är anslutna till systemet måste smörjas för hand. Vilka det är står i förarhandboken.
 
-Exakt påfyllningsintervall och vilka punkter som ingår tas ur förarhandboken vid leverans.
+**Så hittar du fettbehållaren.** Den sitter på pumpenheten: en genomskinlig eller cylindrisk behållare med synlig fettreserv, monterad på en liten elektrisk pump, oftast med tillverkarnamn som Groeneveld, Lincoln eller SKF. Vanlig placering är på övervagnens däck eller bakom en servicelucka, ofta nära bommens fot (praxis). På förhandsbilderna är den inte säkert identifierad: det låsta locket på takdäcket är dieseltankens påfyllning (hänglås), och den nippelliknande anslutningen på tankdäckets flänsade lock (bild 2211186, överdelen) är en möjlig kandidat men kan lika gärna vara hydraultankens påfyllning eller avluftning. Kom ihåg: pumpen har alltid en synlig fettreserv i närheten — en ensam nippel utan behållare är bara en påfyllningspunkt. Lokalisera systemet vid mottagningen, be uthyraren peka ut det om du inte hittar det, fotografera behållaren och notera nivån vid leverans. Påfyllningsintervall och fettets typ tas ur förarhandboken.
 
 ### Bildgenomgång: Motorrummet — motor och kylsystem
 ![[images/big_197156_2211193.jpg]]
