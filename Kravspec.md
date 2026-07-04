@@ -55,29 +55,25 @@ Brödtexten består av en sekvens frågeblock. Format:
 
 Exakt ett `[x]` → radio (ett rätt svar). Två eller fler `[x]` → checkbox (flera rätta). Noll `[x]` → byggvarning, frågan hoppas över.
 
-**Bildfråga (hotspot):**
+**Bildfråga (hotspot):** — syntax spikad 2026-07-04 vid första riktiga quizen (01, 03). Bildfrågan återanvänder Bildgenomgångens regionrads-format: bild följt av en regionrad som anger rätt område.
 
 ```markdown
-### Bildfråga: Var sitter tanklocket?
+### Bildfråga: Peka på delen som sveper i en dödzon bakåt när du svänger.
 
-![[maskinen-bakifran.png]]
-
-​```hotspot
-x: 42
-y: 18
-w: 8
-h: 6
-​```
+![[images/big_197156_2211209.jpg]]
+- 78, 48, 20, 22 | Motvikten | Rätt. Sticker ut ca 3 m bakom banden och sveper runt vid sväng.
 ```
 
-`x, y, w, h` i procent av bildens bredd/höjd (0–100). Klick inom rektangeln räknas som rätt. Endast ett hotspot per bildfråga i första versionen — om flera behövs (t.ex. "klicka på alla nödstopp") utökar vi syntaxen då.
+Regionraden: `x, y, w, h | etikett | förklaring`, koordinater i procent av bildens bredd/höjd (0–100), övre vänstra hörn först — exakt som Bildgenomgång. Klick inom rektangeln räknas som rätt. Etikett och förklaring visas som feedback efter inlämning. Ett hotspot per bildfråga i första versionen; behövs flera utökas syntaxen då.
+
+Fenced `​```hotspot`-block med `x:/y:/w:/h:` (tidig utkastsyntax) accepteras fortfarande av parsern som fallback, men regionraden är den kanoniska formen.
 
 **Regler:**
 
 - Frågeordning = filordning. Ingen randomisering.
 - Godkänd = alla frågor rätt. Se [Sidor](#Sidor).
 - Ingen fritext-frågetyp.
-- Bilder till bildfrågor läggs i `content/Assets/` (samma som modulbilder).
+- Bilder till bildfrågor läggs i `content/images/` (samma som modulbilder).
 
 
 

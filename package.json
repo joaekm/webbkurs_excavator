@@ -9,6 +9,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "start": "node ./dist/server/entry.mjs",
+    "update-content": "bash ./scripts/update-content.sh",
     "astro": "astro"
   },
   "dependencies": {

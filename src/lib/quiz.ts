@@ -14,6 +14,8 @@ export interface HotspotQuestion {
   text: string;
   src: string;
   hotspot: { x: number; y: number; w: number; h: number };
+  label?: string; // etikett för rätt region (regionrads-syntax), visas som feedback
+  desc?: string; // förklaring för rätt region
 }
 
 export type Question = MCQuestion | HotspotQuestion;
@@ -62,25 +64,56 @@ export function parseQuiz(body: string, moduleOrdning: number): Question[] {
     } else if (img) {
       const text = img[1].trim();
       const imgMatch = /!\[\[([^\]]+)\]\]/.exec(block);
-      const hs = /```hotspot([\s\S]*?)```/.exec(block);
-      if (!imgMatch || !hs) {
+      if (!imgMatch) {
+        console.warn(`[quiz modul ${moduleOrdning}] bildfråga "${text}" saknar bild, hoppas över.`);
+        continue;
+      }
+
+      let hotspot: { x: number; y: number; w: number; h: number } | null = null;
+      let label: string | undefined;
+      let desc: string | undefined;
+
+      // Primär syntax: regionrad som Bildgenomgång — "- x, y, w, h | etikett | förklaring".
+      // Första giltiga regionen är rätt hotspot-mål.
+      const regionRe =
+        /^\s*-\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*(?:\|\s*([^|]*?)\s*)?(?:\|\s*(.*?)\s*)?$/;
+      for (const line of lines.slice(1)) {
+        const rm = regionRe.exec(line);
+        if (rm) {
+          hotspot = { x: Number(rm[1]), y: Number(rm[2]), w: Number(rm[3]), h: Number(rm[4]) };
+          label = rm[5]?.trim() || undefined;
+          desc = rm[6]?.trim() || undefined;
+          break;
+        }
+      }
+
+      // Fallback: fenced ```hotspot-block (Kravspecens ursprungliga utkastsyntax).
+      if (!hotspot) {
+        const hs = /```hotspot([\s\S]*?)```/.exec(block);
+        if (hs) {
+          const coord = (key: string): number => {
+            const m = new RegExp(`^\\s*${key}\\s*:\\s*(-?\\d+(?:\\.\\d+)?)`, "m").exec(hs[1]);
+            return m ? Number(m[1]) : NaN;
+          };
+          hotspot = { x: coord("x"), y: coord("y"), w: coord("w"), h: coord("h") };
+        }
+      }
+
+      if (!hotspot || Object.values(hotspot).some((v) => Number.isNaN(v))) {
         console.warn(
-          `[quiz modul ${moduleOrdning}] bildfråga "${text}" saknar bild eller hotspot, hoppas över.`,
+          `[quiz modul ${moduleOrdning}] bildfråga "${text}" saknar giltig hotspot (regionrad eller hotspot-block), hoppas över.`,
         );
         continue;
       }
-      const coord = (key: string): number => {
-        const m = new RegExp(`^\\s*${key}\\s*:\\s*(-?\\d+(?:\\.\\d+)?)`, "m").exec(hs[1]);
-        return m ? Number(m[1]) : NaN;
-      };
-      const hotspot = { x: coord("x"), y: coord("y"), w: coord("w"), h: coord("h") };
-      if (Object.values(hotspot).some((v) => Number.isNaN(v))) {
-        console.warn(
-          `[quiz modul ${moduleOrdning}] bildfråga "${text}" har ogiltig hotspot, hoppas över.`,
-        );
-        continue;
-      }
-      questions.push({ id: "q" + n++, kind: "hotspot", text, src: mediaUrl(imgMatch[1]), hotspot });
+      questions.push({
+        id: "q" + n++,
+        kind: "hotspot",
+        text,
+        src: mediaUrl(imgMatch[1]),
+        hotspot,
+        label,
+        desc,
+      });
     } else {
       console.warn(`[quiz modul ${moduleOrdning}] okänt frågeblock "${header}", hoppas över.`);
     }

@@ -133,6 +133,12 @@ const gradedById = new Map(result?.perQuestion.map((p) => [p.id, p]) ?? []);
                 )}
               </div>
             )}
+            {q.kind === "hotspot" && submitted && (q.label || q.desc) && (
+              <p class="muted">
+                Rätt område: {q.label && <strong>{q.label}</strong>}
+                {q.desc && ` — ${q.desc}`}
+              </p>
+            )}
             {q.kind === "hotspot" && !submitted && (
               <p class="muted">Klicka i bilden för att markera ditt svar.</p>
             )}

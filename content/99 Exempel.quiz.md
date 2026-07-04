@@ -26,10 +26,4 @@ modul: 99
 ### Bildfråga: Klicka på hytten (förarplatsen).
 
 ![[images/exempel-maskin.svg]]
-
-```hotspot
-x: 42
-y: 52
-w: 20
-h: 22
-```
+- 42, 52, 20, 22 | Hytten | Rätt. Förarplatsen med reglage och monitor.

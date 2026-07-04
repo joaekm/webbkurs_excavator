@@ -36,10 +36,10 @@ Tidigare ⧗ VÄNTAR-mekanism och /luckor-aggregering är avskaffade (2026-07-04
 
 Frivillig fil per modul: `NN Modulnamn.quiz.md` med frontmatter `modul: NN` (matchar modulens `ordning`).
 
-Frågesyntax (utkast, spikas vid första riktiga quizet):
+Frågesyntax (spikad 2026-07-04 vid första riktiga quizen 01/03):
 
 1. `### Fråga: <frågetext>` följt av markdown-lista där rätta alternativ prefixas `[x]` och fel `[ ]`. En rätt ger radiofråga, flera rätta ger checkboxfråga.
-2. `### Bildfråga: <frågetext>` följt av `![[bild]]` och hotspot-regioner som rektanglar i procent av bildens bredd/höjd (`x, y, w, h`).
+2. `### Bildfråga: <frågetext>` följt av `![[images/bild]]` och en regionrad i samma format som Bildgenomgång: `- x, y, w, h | etikett | förklaring` (procent av bildens bredd/höjd, övre vänstra hörn). Regionen är rätt hotspot-mål; etikett och förklaring visas som feedback efter inlämning. Ett hotspot per bildfråga i första versionen.
 
 Ingen fritextfrågetyp. Frågeordning enligt filordning, ingen randomisering. Godkänt kräver 100 % rätt, obegränsade försök, senaste försöket räknas.
 
