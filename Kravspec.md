@@ -83,9 +83,11 @@ Ny innehållstyp utöver modul- och quizfiler: annoterade bilder enligt syntax i
 
 ## Användarupplevelse
 
-### Ingen inloggning
+### Flera användare, ingen inloggning
 
-Kursen körs lokalt utan konton. Ingen auth, inga sessioner, inga inloggningssidor. All framstegsdata tillhör den enda underförstådda användaren och sparas i den lokala SQLite-filen.
+Kursen körs lokalt utan konton eller lösenord. Flera användare kan dela installationen — varje användare har bara ett **namn** och sin egen kursprogress. Användare skapas manuellt i databasen (`users`-tabellen; `npm run add-user -- <id> <namn>` eller ren SQL). Ingen registrering i UI, ingen auth, inga sessioner, inga inloggningssidor.
+
+Aktiv användare väljs via en namn-dropdown i sidhuvudet och sparas i en cookie (`course_user`). All framstegsdata nycklas per `user_id`. Utan cookie faller valet tillbaka på standardanvändaren (`joakim`).
 
 ### Sidor
 
@@ -125,23 +127,24 @@ Alla checklistor från alla moduler samlade. Samma state som modulsidorna.
 
 ## Datamodell (SQLite)
 
-Ingen användartabell — en enda underförstådd användare. `module_slug` (+ ev. `item_index`) är hela nyckeln.
+`users` håller bara id + namn (ingen lösenordshash, inga sessioner). All progress nycklas per `user_id` + `module_slug`.
 
 ```
-module_reads(module_slug TEXT PRIMARY KEY, read_at INTEGER)
-checklist_state(module_slug TEXT, item_index INTEGER, checked INTEGER, PRIMARY KEY(module_slug, item_index))
-notes(module_slug TEXT PRIMARY KEY, body TEXT, updated_at INTEGER)
-quiz_attempts(id TEXT PRIMARY KEY, module_slug TEXT, submitted_at INTEGER, passed INTEGER, answers_json TEXT)
+users(id TEXT PRIMARY KEY, name TEXT)
+module_reads(user_id TEXT, module_slug TEXT, read_at INTEGER, PRIMARY KEY(user_id, module_slug))
+checklist_state(user_id TEXT, module_slug TEXT, item_index INTEGER, checked INTEGER, PRIMARY KEY(user_id, module_slug, item_index))
+notes(user_id TEXT, module_slug TEXT, body TEXT, updated_at INTEGER, PRIMARY KEY(user_id, module_slug))
+quiz_attempts(id TEXT PRIMARY KEY, user_id TEXT, module_slug TEXT, submitted_at INTEGER, passed INTEGER, answers_json TEXT)
 ```
 
 Ett `quiz_attempts`-rad per försök. Godkänt-status per modul = senaste försöket:
-`SELECT passed FROM quiz_attempts WHERE module_slug = ? ORDER BY submitted_at DESC LIMIT 1`.
+`SELECT passed FROM quiz_attempts WHERE user_id = ? AND module_slug = ? ORDER BY submitted_at DESC LIMIT 1`.
 
 ## Teknik
 
 - **Framework:** Astro med SSR-adapter (`@astrojs/node` i `standalone` mode).
 - **DB:** SQLite via `better-sqlite3`. Filen `./data/course.db` (lokalt).
-- **Auth:** ingen.
+- **Auth:** ingen. Flera användare (bara `id` + `namn`) i `users`-tabellen, skapas manuellt. Aktiv användare via cookie, väljs i en dropdown i sidhuvudet.
 - **Markdown-parsning:** `gray-matter` för frontmatter, `remark`/`rehype`-pipeline för brödtext (`remark-parse` + `remark-gfm` → custom mdast-plugins → `remark-rehype` + `rehype-raw` → `rehype-stringify`). Custom plugins för `VARNING:`, `[[wiki-länkar]]`, `![[bilder]]`, `### Bildgenomgång`-block och indexerade interaktiva checkrutor. (Avvikelse från tidigare `remark-html`: custom-blocken kräver hast-nivå-kontroll som `remark-html` inte ger rent.)
 - **Rendering:** SSR per request (för att injecta min progression). Innehållet läses från disk vid varje request eller cachas i minnet vid uppstart — bestäms i implementationen.
 - **Fonter:** systemfonter.
@@ -174,6 +177,7 @@ Alla punkter stängda 2026-07-03. Utestående för framtiden:
 - 2026-07-03: initial spec skriven efter dialog om obsidianinnehåll och stackval.
 - 2026-07-03: quiz-syntax spikad (radio/checkbox via checkboxes, hotspot via fenced code-block). Öppna punkter stängda. Repo skapat på GitHub.
 
+- 2026-07-04: flera användare återinförda i minimal form — `users`-tabell med bara id + namn (ingen lösenordshash, inga sessioner). Skapas manuellt i databasen; aktiv användare väljs i en dropdown och sparas i cookie. All progress nycklas per user_id. Fortfarande ingen inloggning.
 - 2026-07-04: inloggning/auth (Lucia), users/sessions-tabellerna, sidorna /logga-in och /skapa-konto samt Hetzner/Caddy/Docker-deploy utgår. Kursen körs lokalt utan konton, en underförstådd användare, state i lokal SQLite-fil. Markdown-pipelinen förtydligad (remark→rehype i stället för remark-html).
 
 2026-07-04: ⧗ VÄNTAR-mekanismen och sidan /luckor utgår ur kravbilden. Innehåll skrivs komplett mot referensmaskinen (Klaravik HX260L, se projektkortet); maskinspecifika osäkerheter hanteras som kontrollpunkter i innehållet, inte som platshållare i appen. Bildgenomgång tillkommer som innehållstyp (se tillägg ovan och [[Innehållskontrakt]]).

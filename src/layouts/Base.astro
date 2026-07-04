@@ -4,6 +4,9 @@ interface Props {
   title: string;
 }
 const { title } = Astro.props;
+const users = Astro.locals.users ?? [];
+const currentUserId = Astro.locals.currentUserId;
+const backTo = Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -20,6 +23,21 @@ const { title } = Astro.props;
       <nav class="site-nav">
         <a href="/">Moduler</a>
         <a href="/checklistor">Checklistor</a>
+        {
+          users.length > 0 && (
+            <form class="user-switch" method="GET" action="/valj-anvandare">
+              <label for="user-select">Användare:</label>
+              <input type="hidden" name="to" value={backTo} />
+              <select id="user-select" name="u" onchange="this.form.submit()">
+                {users.map((u) => (
+                  <option value={u.id} selected={u.id === currentUserId}>
+                    {u.name}
+                  </option>
+                ))}
+              </select>
+            </form>
+          )
+        }
       </nav>
     </header>
     <main class="site-main">

@@ -29,7 +29,10 @@ uppstart — starta om servern efter innehållsändring.
 ## Stack (låst i kravspec)
 - Astro med SSR (`@astrojs/node`, standalone mode)
 - SQLite via `better-sqlite3`, dbfil `./data/course.db`
-- Ingen auth. Ingen `users`/`sessions`-tabell. Nyckel = `module_slug`.
+- Ingen auth/lösenord. Flera användare (bara `id` + `namn`) i `users`-tabellen,
+  skapas manuellt (`npm run add-user` eller SQL). Aktiv användare via cookie,
+  väljs i dropdown i sidhuvudet. Nyckel = `user_id` + `module_slug`. Inga
+  sessioner.
 - Markdown: `gray-matter` + remark→rehype-pipeline (`remark-parse`,
   `remark-gfm`, custom mdast-plugins, `remark-rehype`, `rehype-raw`,
   `rehype-stringify`) med custom plugins för `VARNING:`-blockquotes,
@@ -75,16 +78,21 @@ bilder lokalt.
 - Inga inloggningssidor. Alla sidor öppna (lokal körning).
 
 ## Datamodell
-`module_reads`, `checklist_state`, `notes`, `quiz_attempts` (inga
-users/sessions). Nyckel = `module_slug`. Quizstatus per modul = senaste
-försöket, inte bästa.
+`users(id, name)` + `module_reads`, `checklist_state`, `notes`,
+`quiz_attempts` (inga sessioner, ingen lösenordshash). Nyckel = `user_id` +
+`module_slug`. Quizstatus per modul = senaste försöket, inte bästa.
+Migreringen i `src/lib/db.ts` backfillar äldre singel-användardata till
+standardanvändaren `joakim`.
 
 ## Projektstruktur
-- `src/lib/` — db, state (DB-queries), content (laddar/cachar), markdown
-  (remark→rehype), quiz (parse + rättning), slug.
+- `src/lib/` — db (+migrering), state (DB-queries per user_id), users,
+  content (laddar/cachar), markdown (remark→rehype), quiz (parse + rättning),
+  slug.
+- `src/middleware.ts` — löser aktiv användare (cookie) → `Astro.locals`.
 - `src/pages/` — sidor + `api/` (checklist, note, read) + `media/[...file]`
-  (serverar bilder från content/images).
+  (serverar bilder från content/images) + `valj-anvandare` (sätter cookie).
 - `public/js/` — module.js, bildgenomgang.js, quiz.js.
+- `scripts/` — update-content.sh, add-user.mjs.
 
 ## Definition of done
 - Appen bygger och startar med enbart fixturen i `content/`.

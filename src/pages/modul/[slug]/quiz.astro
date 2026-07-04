@@ -14,6 +14,7 @@ if (!questions || questions.length === 0) {
   return new Response("Modulen saknar quiz", { status: 404 });
 }
 
+const uid = Astro.locals.currentUserId ?? "";
 let submitted = false;
 let result: GradeResult | null = null;
 let answers: AnswerMap = {};
@@ -36,11 +37,11 @@ if (Astro.request.method === "POST") {
     }
   }
   result = gradeQuiz(questions, answers);
-  recordQuizAttempt(module.slug, result.passed, JSON.stringify(answers));
+  recordQuizAttempt(uid, module.slug, result.passed, JSON.stringify(answers));
   submitted = true;
 }
 
-const lastStatus = getQuizStatus(module.slug);
+const lastStatus = getQuizStatus(uid, module.slug);
 const gradedById = new Map(result?.perQuestion.map((p) => [p.id, p]) ?? []);
 ---
 

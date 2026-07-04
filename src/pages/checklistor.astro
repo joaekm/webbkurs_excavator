@@ -6,9 +6,10 @@ import { renderModule } from "../lib/markdown.ts";
 import { getChecklistState } from "../lib/state.ts";
 
 const lookup = getLookup();
+const uid = Astro.locals.currentUserId ?? "";
 const groups = [];
 for (const m of getModules()) {
-  const state = getChecklistState(m.slug);
+  const state = getChecklistState(uid, m.slug);
   const rendered = await renderModule(m.body, m.slug, lookup, state);
   if (rendered.checklistItems.length === 0) continue;
   groups.push({

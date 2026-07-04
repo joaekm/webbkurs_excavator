@@ -9,12 +9,13 @@ function totalCheckboxes(body: string): number {
   return m ? m.length : 0;
 }
 
+const uid = Astro.locals.currentUserId ?? "";
 const modules = getModules().map((m) => ({
   ...m,
   total: totalCheckboxes(m.body),
-  checked: checkedCount(m.slug),
-  read: isRead(m.slug),
-  quiz: getQuizStatus(m.slug),
+  checked: checkedCount(uid, m.slug),
+  read: isRead(uid, m.slug),
+  quiz: getQuizStatus(uid, m.slug),
 }));
 
 const quizLabel: Record<string, string> = {

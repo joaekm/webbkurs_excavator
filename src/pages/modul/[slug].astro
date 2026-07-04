@@ -12,10 +12,11 @@ if (!module) {
   return new Response("Modulen finns inte", { status: 404 });
 }
 
-const checklistState = getChecklistState(module.slug);
+const uid = Astro.locals.currentUserId ?? "";
+const checklistState = getChecklistState(uid, module.slug);
 const rendered = await renderModule(module.body, module.slug, getLookup(), checklistState);
-const note = getNote(module.slug);
-const read = isRead(module.slug);
+const note = getNote(uid, module.slug);
+const read = isRead(uid, module.slug);
 const { prev, next } = neighbours(module.slug);
 ---
 

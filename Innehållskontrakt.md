@@ -12,7 +12,7 @@ Styr hur modulfiler i `Kurs/` skrivs. Kodagenten som bygger webbskalet parsar mo
 ---
 ordning: 4
 titel: "Mark och bärighet"
-status: utkast        # utkast | verifierad
+status: utkast        # utkast | klar | verifierad
 kritisk: true         # true för moduler som avgör projektet (4, 5, 7)
 tid_min: 25           # uppskattad lästid i minuter
 taggar: [mark, bärighet]
@@ -20,6 +20,8 @@ taggar: [mark, bärighet]
 ```
 
 Alla sex fält är obligatoriska.
+
+Statusstege (rev. 2026-07-04): **utkast** = skriven och under granskning; **klar** = granskad, genomförd och accepterad i kursen; **verifierad** = maskinspecifika kontrollpunkter avstämda mot den levererade maskinen (efter mottagningen 2026-07-07).
 
 ## Brödtextkonventioner
 

@@ -46,8 +46,11 @@ a { color: var(--link); }
   flex-wrap: wrap;
 }
 .site-title { font-weight: 700; text-decoration: none; color: var(--ink); font-size: 1.1rem; }
-.site-nav a { margin-left: 1rem; text-decoration: none; }
+.site-nav { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.site-nav a { text-decoration: none; }
 .site-nav a:hover { text-decoration: underline; }
+.user-switch { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.9rem; color: var(--muted); }
+.user-switch select { font: inherit; padding: 0.25rem 0.4rem; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); }
 .site-main { max-width: var(--maxw); margin: 0 auto; padding: 1.5rem 1.2rem 4rem; }
 .site-footer {
   max-width: var(--maxw);

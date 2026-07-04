@@ -20,6 +20,24 @@ npm start
 
 Framstegsdata sparas i `./data/course.db` (skapas automatiskt, gitignorad).
 
+## Användare
+
+Flera personer kan dela installationen — ingen inloggning, bara ett namn per
+användare med egen progress. Aktiv användare väljs i dropdownen i sidhuvudet
+(sparas i en cookie). Standardanvändaren `joakim` skapas automatiskt.
+
+Lägg till en användare:
+
+```bash
+npm run add-user -- anna Anna
+npm run add-user -- kalle "Kalle Svensson"
+```
+
+(eller direkt i databasen: `INSERT INTO users (id, name) VALUES ('anna','Anna');`)
+
+Starta om servern så syns den nya användaren i väljaren. Glömmer du vem som är
+vem finns allt i `users`-tabellen.
+
 ## Innehåll
 
 Kursmoduler ligger i `content/` som markdown enligt

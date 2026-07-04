@@ -10,6 +10,7 @@
     "preview": "astro preview",
     "start": "node ./dist/server/entry.mjs",
     "update-content": "bash ./scripts/update-content.sh",
+    "add-user": "node scripts/add-user.mjs",
     "astro": "astro"
   },
   "dependencies": {
