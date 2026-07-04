@@ -1,10 +1,15 @@
 ---
 ordning: 1
-titel: "Maskinen"
-status: utkast
+titel: Maskinen
+status: '"klar"'
 kritisk: false
 tid_min: 30
-taggar: [maskin, hytt, tillsyn, mottagning, hyresvillkor]
+taggar:
+  - maskin
+  - hytt
+  - tillsyn
+  - mottagning
+  - hyresvillkor
 ---
 
 Den här modulen bygger språket. Efter den vet du vad delarna heter, känner igen dem på maskinen, kan ta emot den vid leverans utan att skriva under på skador du inte orsakat, och kan sköta den dagliga tillsynen. Körning och teknik kommer i [[03 Grundkörning]], redskapen i [[02 Rototilt och skopor]].

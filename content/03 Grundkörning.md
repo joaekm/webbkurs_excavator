@@ -1,10 +1,13 @@
 ---
 ordning: 3
-titel: "Grundkörning"
-status: utkast
+titel: Grundkörning
+status: '"klar"'
 kritisk: false
 tid_min: 30
-taggar: [körning, styrmönster, övning]
+taggar:
+  - körning
+  - styrmönster
+  - övning
 ---
 
 ## Vad modulen ger dig

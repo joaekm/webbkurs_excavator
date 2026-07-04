@@ -1,10 +1,12 @@
 ---
 ordning: 4
-titel: "Mark och bärighet"
-status: utkast
+titel: Mark och bärighet
+status: '"klar"'
 kritisk: true
 tid_min: 25
-taggar: [mark, bärighet]
+taggar:
+  - mark
+  - bärighet
 ---
 
 ## Vad modulen ger dig

@@ -1,10 +1,15 @@
 ---
 ordning: 2
-titel: "Rototilt och skopor"
-status: utkast
+titel: Rototilt och skopor
+status: '"klar"'
 kritisk: false
 tid_min: 25
-taggar: [rototilt, tiltrotator, skopor, skopbyte, redskap]
+taggar:
+  - rototilt
+  - tiltrotator
+  - skopor
+  - skopbyte
+  - redskap
 ---
 
 Den här modulen handlar om det som sitter längst ut på maskinen: tiltrotatorn och skoporna. Du lär dig vad tiltrotatorn gör, hur du kopplar den på, hur du byter skopa säkert, och vilken skopa du ska ha till vilket byggmoment. Läsordningen är som numreringen: den här modulen efter [[01 Maskinen]]. Men de praktiska momenten — knappkartläggningen och skopbytet — kräver grundrörelserna från [[03 Grundkörning]], så gör dem i verkligheten först när även den är läst.
