@@ -17,10 +17,12 @@ En bandgrävare har sex delar du behöver kunna vid namn. Lär dig dem nu, reste
 
 - **Bommen** är den stora böjda armen som sitter fäst i maskinkroppen och lyfter uppåt.
 - **Stickan** är den raka armen längst ut på bommen. Den fälls ut och in och är det som styr hur långt ut skopan når.
-- **Skopan** sitter längst ut och gräver.
+- **Skopan** sitter längst ut och gräver. Bom, sticka och skopa tillsammans kallas **aggregatet**.
 - **Motvikten** är det tunga blocket bak. Den balanserar tyngden av bom, sticka och last.
-- **Larvbanden** (undervagnen) är de två banden maskinen står och kör på.
+- **Larvbanden** (undervagnen) är de två banden maskinen står och kör på. I bandstället sitter **drivhjulen** (kugghjulen som driver bandet, normalt bak), **spännhjulen** (de släta hjulen fram) och **bärrullarna** (de små rullar som bandets överdel vilar på).
 - **Hytten** är förarplatsen.
+
+Alla rörelser — bom, sticka, skopa, sväng och körning — drivs av maskinens **hydraulik**: ett oljetryckssystem där motorn driver pumpar som pressar olja till cylindrar och motorer. Det är därför allt på maskinen handlar om oljenivåer, slangar och tryck, och därför en säkerhetsspärr kan göra alla spakar döda genom att stänga av just hydrauliken.
 
 En sak som förvirrar i början: maskinen är byggd i två våningar. **Undervagnen** är banden och ramen de sitter i — den som maskinen kör på. **Övervagnen** är allt ovanför: hytt, motorrum, bom och motvikt. Mellan dem sitter **svängkransen**, en stor kullagrad ring som låter hela övervagnen snurra fritt varv efter varv ovanpå banden. Det är därför du kan gräva åt ett håll och tömma åt ett annat utan att flytta maskinen. Svängkransen syns inte utifrån men den är den led som gör grävmaskinen till en grävmaskin, och den är en punkt du ska titta till vid mottagningen (mer längre ned).
 
@@ -64,7 +66,7 @@ Detta är fakta om kursens maskin. Siffrorna styr hur du planerar bärighet, tra
 
 Tre av siffrorna är värda att stanna vid.
 
-**26,4 ton.** Detta är ingen minigrävare. Vikten avgör var du kan köra på den blöta, organogena marken på tomten — det är hela [[04 Mark och bärighet]]. Bandplattornas bredd bestämmer marktrycket; transportbredden 3,18 m tyder på 600 mm plattor, men notera den faktiska bredden vid leverans.
+**26,4 ton.** Detta är ingen minigrävare. Vikten avgör var du kan köra på tomtens blöta mark, som till stor del är **organogen jord** — jord bildad av växtrester, torv- och dyartad, med dålig bärighet som blir sämre av regn. Hela [[04 Mark och bärighet]] handlar om det. Bandplattornas bredd bestämmer marktrycket; transportbredden 3,18 m tyder på 600 mm plattor, men notera den faktiska bredden vid leverans.
 
 **Svansradie ca 3 m.** När du svänger övervagnen sticker motvikten ut ungefär tre meter bakom bandens mitt. Det är en cirkel med tre meters radie runt maskinen som sveper när du svänger, oavsett åt vilket håll bommen pekar. Den cirkeln är en dödszon. Mer i [[03 Grundkörning]] och [[10 Säkerhet]].
 
