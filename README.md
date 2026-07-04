@@ -29,17 +29,13 @@ Kursmoduler ligger i `content/` som markdown enligt
 - `content/NN Modulnamn.quiz.md` — frivilligt quiz (`modul: NN`).
 - `content/images/` — bilder (`![[images/fil]]`).
 
-Innehållet skrivs i Obsidian och kopieras hit manuellt. Efter en ändring:
-starta om servern (innehållet cachas vid uppstart).
-
-`99 Exempel.md` + `99 Exempel.quiz.md` är en testfixtur som använder alla
-funktioner. Ta bort den när riktiga moduler finns.
+Innehållet skrivs i Obsidian och kopieras hit med `npm run update-content`.
+Efter en ändring: **starta om servern** (innehållet cachas vid uppstart).
 
 ## Bildrättigheter
 
 Klaravik-underlagsfoton är tredjepartsbilder och får inte publiceras öppet.
-`content/images/` är gitignorad (utom fixturens placeholder). Lägg riktiga
-bilder lokalt; de committas aldrig.
+`content/images/` är gitignorad. Lägg riktiga bilder lokalt; de committas aldrig.
 
 ## Struktur
 

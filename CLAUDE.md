@@ -60,8 +60,8 @@ som hotspot-mål.
 
 ## Bildrättigheter
 Klaravik-underlagsfoton är tredjepartsbilder — får bara användas i privat kurs,
-aldrig committas till repot. `content/images/` är gitignorad (utom fixturens
-egna placeholder-SVG). Lägg riktiga bilder lokalt.
+aldrig committas till repot. `content/images/` är gitignorad. Lägg riktiga
+bilder lokalt.
 
 ## Sidor
 - `/` — startsida: modullista med status-, kritisk- och lästidsmärken plus tre
