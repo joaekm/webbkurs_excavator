@@ -1,0 +1,32 @@
+---
+export const prerender = false;
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} — Grävmaskinskurs</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a href="/" class="site-title">🚜 Grävmaskinskurs</a>
+      <nav class="site-nav">
+        <a href="/">Moduler</a>
+        <a href="/checklistor">Checklistor</a>
+      </nav>
+    </header>
+    <main class="site-main">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      Personlig kurs — bevattningsdamm. Körs lokalt.
+    </footer>
+  </body>
+</html>

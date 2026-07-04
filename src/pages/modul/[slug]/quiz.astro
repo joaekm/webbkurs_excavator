@@ -1,0 +1,161 @@
+---
+export const prerender = false;
+import Base from "../../../layouts/Base.astro";
+import { getModuleBySlug, getQuizForModule } from "../../../lib/content.ts";
+import { gradeQuiz, type AnswerMap, type GradeResult } from "../../../lib/quiz.ts";
+import { recordQuizAttempt, getQuizStatus } from "../../../lib/state.ts";
+
+const { slug } = Astro.params;
+const module = slug ? getModuleBySlug(slug) : undefined;
+if (!module) return new Response("Modulen finns inte", { status: 404 });
+
+const questions = getQuizForModule(module.ordning);
+if (!questions || questions.length === 0) {
+  return new Response("Modulen saknar quiz", { status: 404 });
+}
+
+let submitted = false;
+let result: GradeResult | null = null;
+let answers: AnswerMap = {};
+
+if (Astro.request.method === "POST") {
+  const form = await Astro.request.formData();
+  for (const q of questions) {
+    if (q.kind === "radio") {
+      const v = form.get(q.id);
+      if (v !== null && v !== "") answers[q.id] = Number(v);
+    } else if (q.kind === "checkbox") {
+      const vs = form.getAll(q.id).map((v) => Number(v));
+      if (vs.length) answers[q.id] = vs;
+    } else {
+      const x = form.get(`${q.id}_x`);
+      const y = form.get(`${q.id}_y`);
+      if (x !== null && y !== null && x !== "" && y !== "") {
+        answers[q.id] = { x: Number(x), y: Number(y) };
+      }
+    }
+  }
+  result = gradeQuiz(questions, answers);
+  recordQuizAttempt(module.slug, result.passed, JSON.stringify(answers));
+  submitted = true;
+}
+
+const lastStatus = getQuizStatus(module.slug);
+const gradedById = new Map(result?.perQuestion.map((p) => [p.id, p]) ?? []);
+---
+
+<Base title={`Quiz: ${module.titel}`}>
+  <p><a href={`/modul/${module.slug}`}>← Tillbaka till modulen</a></p>
+  <h1 class="page-title">Kunskapskontroll: {module.titel}</h1>
+  <p class="muted">Godkänt kräver 100&nbsp;% rätt. Obegränsat antal försök — senaste räknas.</p>
+
+  {
+    submitted && result && (
+      <div class={`result-banner ${result.passed ? "pass" : "fail"}`}>
+        {result.passed
+          ? "✓ Godkänt! Alla svar rätt."
+          : `✗ Ej godkänt — ${result.perQuestion.filter((p) => p.correct).length} av ${questions.length} rätt. Rätt svar visas nedan.`}
+      </div>
+    )
+  }
+  {
+    !submitted && lastStatus !== "none" && (
+      <p class="muted">
+        Senaste försök: <strong>{lastStatus === "passed" ? "godkänt" : "ej godkänt"}</strong>.
+      </p>
+    )
+  }
+
+  <form method="POST" class="quiz-form">
+    {
+      questions.map((q, qi) => {
+        const g = gradedById.get(q.id);
+        const cls = submitted ? (g?.correct ? " correct" : " incorrect") : "";
+        return (
+          <div class={`quiz-question${cls}`}>
+            <h3>
+              {qi + 1}. {q.text}
+            </h3>
+
+            {q.kind !== "hotspot" && (
+              <ul class="quiz-options">
+                {q.options.map((opt, oi) => {
+                  const selected =
+                    q.kind === "radio"
+                      ? answers[q.id] === oi
+                      : Array.isArray(answers[q.id]) && (answers[q.id] as number[]).includes(oi);
+                  let optCls = "";
+                  if (submitted) {
+                    if (opt.correct) optCls = "opt-correct";
+                    else if (selected) optCls = "opt-wrong";
+                  }
+                  return (
+                    <li class={optCls}>
+                      <input
+                        type={q.kind === "radio" ? "radio" : "checkbox"}
+                        name={q.id}
+                        value={oi}
+                        checked={selected}
+                        disabled={submitted}
+                      />
+                      <span>
+                        {opt.text}
+                        {submitted && opt.correct && " ✓"}
+                        {submitted && selected && !opt.correct && " ✗"}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+
+            {q.kind === "hotspot" && (
+              <div
+                class="quiz-hotspot-stage"
+                data-hotspot
+                data-qid={q.id}
+                data-submitted={submitted ? "1" : "0"}
+              >
+                <img src={q.src} alt={q.text} />
+                <input type="hidden" name={`${q.id}_x`} value={submitted && answers[q.id] && "x" in (answers[q.id] as any) ? String((answers[q.id] as any).x) : ""} />
+                <input type="hidden" name={`${q.id}_y`} value={submitted && answers[q.id] && "y" in (answers[q.id] as any) ? String((answers[q.id] as any).y) : ""} />
+                {submitted && answers[q.id] && "x" in (answers[q.id] as any) && (
+                  <span
+                    class={`hotspot-marker ${g?.correct ? "correct" : "wrong"}`}
+                    style={`left:${(answers[q.id] as any).x}%;top:${(answers[q.id] as any).y}%`}
+                  />
+                )}
+                {submitted && (
+                  <span
+                    class="hotspot-target"
+                    style={`left:${q.hotspot.x}%;top:${q.hotspot.y}%;width:${q.hotspot.w}%;height:${q.hotspot.h}%`}
+                  />
+                )}
+              </div>
+            )}
+            {q.kind === "hotspot" && !submitted && (
+              <p class="muted">Klicka i bilden för att markera ditt svar.</p>
+            )}
+          </div>
+        );
+      })
+    }
+
+    <div class="tool-buttons">
+      {
+        !submitted ? (
+          <button type="submit" class="btn btn-primary">
+            Lämna in
+          </button>
+        ) : (
+          <a class="btn btn-primary" href={`/modul/${module.slug}/quiz`}>
+            Gör om quizet
+          </a>
+        )
+      }
+      <a class="btn" href={`/modul/${module.slug}`}>Till modulen</a>
+    </div>
+  </form>
+
+  <script is:inline src="/js/quiz.js"></script>
+</Base>

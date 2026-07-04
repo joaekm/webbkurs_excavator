@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="1024" height="768" role="img" aria-label="Schematisk grävmaskin (fixturbild)">
+  <rect width="1024" height="768" fill="#e8eef2"/>
+  <text x="512" y="40" text-anchor="middle" font-family="sans-serif" font-size="26" fill="#5a6b78">Fixturbild — schematisk grävmaskin (ersätts av egna foton)</text>
+  <!-- undervagn / band -->
+  <rect x="180" y="560" width="520" height="90" rx="24" fill="#3b4a56"/>
+  <circle cx="220" cy="605" r="34" fill="#20303a"/>
+  <circle cx="660" cy="605" r="34" fill="#20303a"/>
+  <circle cx="360" cy="620" r="20" fill="#20303a"/>
+  <circle cx="520" cy="620" r="20" fill="#20303a"/>
+  <!-- motvikt -->
+  <rect x="600" y="430" width="150" height="140" rx="14" fill="#6b7a86"/>
+  <!-- överdel / hytt -->
+  <rect x="430" y="400" width="200" height="170" rx="12" fill="#f0a41e"/>
+  <rect x="450" y="420" width="120" height="90" rx="8" fill="#bfe0f0" stroke="#20303a" stroke-width="3"/>
+  <!-- bom -->
+  <path d="M470 470 L300 300 L360 260 L520 440 Z" fill="#f0a41e" stroke="#20303a" stroke-width="4"/>
+  <!-- sticka -->
+  <path d="M330 290 L250 430 L300 450 L370 320 Z" fill="#f0a41e" stroke="#20303a" stroke-width="4"/>
+  <!-- skopa -->
+  <path d="M250 430 q-40 60 20 90 l70 -10 q10 -50 -40 -80 Z" fill="#3b4a56" stroke="#20303a" stroke-width="4"/>
+</svg>

@@ -1,0 +1,20 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+.astro/
+
+# local database (framstegsdata, aldrig i repot)
+data/
+
+# Klaravik-underlagsfoton är tredjepartsbilder — får inte publiceras öppet.
+# Lägg dem lokalt i content/images/, de committas aldrig. Endast fixturens
+# egna placeholder-bild versionshanteras.
+content/images/*
+!content/images/exempel-maskin.svg
+
+# os / editor
+.DS_Store
+*.log
+npm-debug.log*

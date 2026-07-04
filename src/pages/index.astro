@@ -1,0 +1,67 @@
+---
+export const prerender = false;
+import Base from "../layouts/Base.astro";
+import { getModules } from "../lib/content.ts";
+import { checkedCount, isRead, getQuizStatus } from "../lib/state.ts";
+
+function totalCheckboxes(body: string): number {
+  const m = body.match(/^\s*[-*]\s*\[[ xX]\]/gm);
+  return m ? m.length : 0;
+}
+
+const modules = getModules().map((m) => ({
+  ...m,
+  total: totalCheckboxes(m.body),
+  checked: checkedCount(m.slug),
+  read: isRead(m.slug),
+  quiz: getQuizStatus(m.slug),
+}));
+
+const quizLabel: Record<string, string> = {
+  passed: "godkänd",
+  failed: "ej godkänd",
+  none: "ej försökt",
+};
+const quizDot: Record<string, string> = {
+  passed: "green",
+  failed: "red",
+  none: "grey",
+};
+---
+
+<Base title="Moduler">
+  <h1 class="page-title">Kursmoduler</h1>
+  {modules.length === 0 && <p class="muted">Inga moduler i <code>content/</code> än.</p>}
+  <ol class="module-list">
+    {
+      modules.map((m) => (
+        <li class={`module-card${m.kritisk ? " critical" : ""}`}>
+          <h2>
+            <span class="module-ordning">{String(m.ordning).padStart(2, "0")}</span>
+            <a href={`/modul/${m.slug}`}>{m.titel}</a>
+          </h2>
+          <div class="badges">
+            <span class={`badge status-${m.status}`}>{m.status}</span>
+            {m.kritisk && <span class="badge critical">kritisk</span>}
+            <span class="badge">{m.tid_min} min</span>
+          </div>
+          <div class="progress-row">
+            <span class="prog" title="Avbockade checkrutor">
+              ☑ {m.checked}/{m.total}
+            </span>
+            <span class="prog" title="Läst-status">
+              <span class={`dot ${m.read ? "green" : "grey"}`} />
+              {m.read ? "läst" : "oläst"}
+            </span>
+            {m.hasQuiz && (
+              <span class="prog" title="Quiz-status">
+                <span class={`dot ${quizDot[m.quiz]}`} />
+                quiz: {quizLabel[m.quiz]}
+              </span>
+            )}
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</Base>

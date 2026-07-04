@@ -1,0 +1,55 @@
+---
+export const prerender = false;
+import Base from "../layouts/Base.astro";
+import { getModules, getLookup } from "../lib/content.ts";
+import { renderModule } from "../lib/markdown.ts";
+import { getChecklistState } from "../lib/state.ts";
+
+const lookup = getLookup();
+const groups = [];
+for (const m of getModules()) {
+  const state = getChecklistState(m.slug);
+  const rendered = await renderModule(m.body, m.slug, lookup, state);
+  if (rendered.checklistItems.length === 0) continue;
+  groups.push({
+    slug: m.slug,
+    titel: m.titel,
+    ordning: m.ordning,
+    items: rendered.checklistItems.map((it) => ({ ...it, checked: state.get(it.index) ?? false })),
+  });
+}
+---
+
+<Base title="Checklistor">
+  <h1 class="page-title">Alla checklistor</h1>
+  <p class="muted">Samlade från alla moduler. Samma tillstånd som på modulsidorna.</p>
+
+  {groups.length === 0 && <p class="muted">Inga checklistor i innehållet än.</p>}
+
+  {
+    groups.map((g) => (
+      <section>
+        <h2>
+          <span class="module-ordning">{String(g.ordning).padStart(2, "0")}</span>
+          <a href={`/modul/${g.slug}`}>{g.titel}</a>
+        </h2>
+        <ul style="list-style:none;padding-left:0.5rem;">
+          {g.items.map((it) => (
+            <li class={`checklist-item task-list-item${it.checked ? " done" : ""}`}>
+              <input
+                type="checkbox"
+                class="task-checkbox"
+                data-slug={g.slug}
+                data-index={it.index}
+                checked={it.checked}
+              />
+              <span>{it.text}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+
+  <script is:inline src="/js/module.js"></script>
+</Base>

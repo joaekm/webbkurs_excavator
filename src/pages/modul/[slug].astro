@@ -1,0 +1,92 @@
+---
+export const prerender = false;
+import Base from "../../layouts/Base.astro";
+import { getModuleBySlug, getLookup, neighbours } from "../../lib/content.ts";
+import { renderModule } from "../../lib/markdown.ts";
+import { getChecklistState, getNote, isRead } from "../../lib/state.ts";
+
+const { slug } = Astro.params;
+const module = slug ? getModuleBySlug(slug) : undefined;
+
+if (!module) {
+  return new Response("Modulen finns inte", { status: 404 });
+}
+
+const checklistState = getChecklistState(module.slug);
+const rendered = await renderModule(module.body, module.slug, getLookup(), checklistState);
+const note = getNote(module.slug);
+const read = isRead(module.slug);
+const { prev, next } = neighbours(module.slug);
+---
+
+<Base title={module.titel}>
+  <div class="module-layout">
+    {
+      rendered.headings.length > 0 && (
+        <aside class="anchor-nav">
+          <strong>På sidan</strong>
+          <ul>
+            {rendered.headings.map((h) => (
+              <li>
+                <a href={`#${h.id}`}>{h.text}</a>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      )
+    }
+    <div>
+      <h1>
+        <span class="module-ordning">{String(module.ordning).padStart(2, "0")}</span>
+        {module.titel}
+      </h1>
+      <div class="badges">
+        <span class={`badge status-${module.status}`}>{module.status}</span>
+        {module.kritisk && <span class="badge critical">kritisk</span>}
+        <span class="badge">{module.tid_min} min</span>
+      </div>
+
+      <article class="module-body" set:html={rendered.html} />
+
+      <section class="module-tools">
+        <h2>Egna anteckningar</h2>
+        <textarea
+          class="notes-area"
+          id="notes"
+          data-slug={module.slug}
+          placeholder="Skriv dina anteckningar här — sparas automatiskt."
+          >{note}</textarea
+        >
+        <div class="notes-status" id="notes-status" aria-live="polite"></div>
+
+        <div class="tool-buttons">
+          <button
+            type="button"
+            id="read-toggle"
+            class={`btn${read ? " read-on" : ""}`}
+            data-slug={module.slug}
+            data-read={read ? "1" : "0"}
+          >
+            {read ? "✓ Markerad som läst" : "Markera som läst"}
+          </button>
+          <span class="spacer"></span>
+          {
+            module.hasQuiz && (
+              <a class="btn btn-primary" href={`/modul/${module.slug}/quiz`}>
+                Till kunskapskontrollen →
+              </a>
+            )
+          }
+        </div>
+
+        <nav class="pager">
+          {prev ? <a class="btn" href={`/modul/${prev.slug}`}>← {prev.titel}</a> : <span></span>}
+          {next ? <a class="btn" href={`/modul/${next.slug}`}>{next.titel} →</a> : <span></span>}
+        </nav>
+      </section>
+    </div>
+  </div>
+
+  <script is:inline src="/js/module.js"></script>
+  <script is:inline src="/js/bildgenomgang.js"></script>
+</Base>
